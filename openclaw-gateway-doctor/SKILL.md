@@ -30,5 +30,16 @@ To manually inspect the token a running gateway is using:
 grep -a OPENCLAW_GATEWAY_TOKEN /proc/$(pgrep -f openclaw-gateway)/environ | tr '\0' '\n'
 ```
 
+### Fixing Bonjour/mDNS Name Conflicts
+If multiple gateways run on the same host, they may conflict on the default discovery name.
+**Symptoms**: Logs show `[bonjour] gateway name conflict resolved; newName="..."` or auto-incrementing numbers in discovery names (e.g., `(2)`, `(3)`).
+
+**Fix**: Set unique names and hostnames for each gateway profile in the systemd service file:
+```ini
+Environment="OPENCLAW_MACHINE_NAME=OpenClaw: ProfileName"
+Environment=OPENCLAW_MDNS_HOSTNAME=openclaw-profilename
+```
+Then run `systemctl --user daemon-reload` and restart the services.
+
 ## Reference Material
 For deep technical details on specific bugs (e.g., the systemd parser backslash bug) and architectural changes, see [references/technical-notes.md](references/technical-notes.md).

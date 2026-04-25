@@ -16,3 +16,12 @@ Multiple gateways can run on the same host using different profiles.
 *   **Default**: `~/.openclaw` (Port 18789)
 *   **Named Profile**: `~/.openclaw-<profile>` (Different port, e.g., 19790)
 *   **Issue**: Running `doctor` without the `--profile` flag will check the default state, which might not be what the user is currently using.
+
+## 4. mDNS / Bonjour Name Resolution
+OpenClaw uses the `@homebridge/ciao` library for mDNS discovery.
+*   **Instance Name**: Defaults to `${machineDisplayName} (OpenClaw)`.
+*   **Machine Name Override**: Can be overridden via `OPENCLAW_MACHINE_NAME` environment variable.
+*   **Hostname**: Defaults to `openclaw.local`.
+*   **Hostname Override**: Can be overridden via `OPENCLAW_MDNS_HOSTNAME` environment variable.
+*   **Conflict Handling**: If two gateways on the same network (or the same host) use the same instance name or hostname, `ciao` will automatically append a number (e.g., ` (2)`) to resolve the conflict.
+*   **Stability**: On some systems (especially WSL2), multiple gateways sharing the same mDNS UDP port (5353) may get stuck in the `probing` state. Unique `OPENCLAW_MDNS_HOSTNAME` values are critical to minimize these collisions.
