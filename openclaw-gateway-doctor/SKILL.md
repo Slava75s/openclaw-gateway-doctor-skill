@@ -39,6 +39,10 @@ If multiple gateways run on the same host, they may conflict on the default disc
 Environment="OPENCLAW_MACHINE_NAME=OpenClaw: ProfileName"
 Environment=OPENCLAW_MDNS_HOSTNAME=openclaw-profilename
 ```
+**Alternative (for WSL2 stability)**: If gateways still crash with `CIAO PROBING CANCELLED`, disable Bonjour entirely:
+```ini
+Environment=OPENCLAW_DISABLE_BONJOUR=1
+```
 Then run `systemctl --user daemon-reload` and restart the services.
 
 ## Reference Material
